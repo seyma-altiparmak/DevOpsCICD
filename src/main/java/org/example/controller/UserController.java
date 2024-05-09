@@ -18,13 +18,13 @@ public class UserController {
     @GetMapping("/")
     public String viewHomePage(Model model){
         model.addAttribute("listUser", userService.getAllUsers());
-        return "index";
+        return "html/index";
     }
 
     @GetMapping("/add")
     public String showNewUserForm(Model model){
         model.addAttribute("user",new User());
-        return "new_user";
+        return "html/new_user";
     }
 
     @PostMapping("/saveUser")
@@ -37,7 +37,7 @@ public class UserController {
     public String showFormForUpdate(@PathVariable(value = "id") long id, Model model){
         User user = userService.getUserById(id);
         model.addAttribute("user",user);
-        return "update_user";
+        return "html/update_user";
     }
 
     @GetMapping("/deleteUser/{id}")
