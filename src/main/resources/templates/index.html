@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Management System</title>
+    <!-- Bootstrap CSS linkini güncelledim -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Kendi stil dosyanızı ekleyin -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div class="container my-4">
+    <h1 class="text-center mb-4">User List</h1>
+
+    <div class="text-right mb-3">
+        <a href="/add" class="btn btn-success">Add User</a>
+    </div>
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>User Name</th>
+            <th>User Address</th>
+            <th>User Image</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${listUser}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.address}"></td>
+            <td><img th:src="@{${user.image}}" alt="User Image" class="img-thumbnail" style="width: 100px; height: 100px;"></td>
+            <td>
+                <a th:href="@{/showFormForUpdate/{id}(id=${user.id})}" class="btn btn-info">Update</a>
+                <a th:href="@{/deleteUser/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+
+</html>
