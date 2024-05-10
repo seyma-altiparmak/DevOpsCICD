@@ -34,7 +34,11 @@
             <td th:text="${user.id}"></td>
             <td th:text="${user.name}"></td>
             <td th:text="${user.address}"></td>
-            <td><img th:src="@{${user.image}}" alt="User Image" class="img-thumbnail" style="width: 100px; height: 100px;"></td>
+            <td><img th:src="@{${user.getLink()} + ${user.image}}"
+                     alt="User Image"
+                     class="img-thumbnail"
+                     style="width: 100px; height: 100px;">
+            </td>
             <td>
                 <a th:href="@{/showFormForUpdate/{id}(id=${user.id})}" class="btn btn-info">Update</a>
                 <a th:href="@{/deleteUser/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>

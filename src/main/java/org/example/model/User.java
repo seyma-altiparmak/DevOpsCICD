@@ -1,6 +1,7 @@
 package org.example.model;
 
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 @Table(name = "person")
@@ -17,6 +18,9 @@ public class User {
 
     @Column(name = "image")
     private String image;
+
+
+    public static final String LINK = "https://devops-swe304.s3.eu-north-1.amazonaws.com/";
 
     public long getId() {
         return id;
@@ -43,4 +47,6 @@ public class User {
     public void setImage(String image) {
         this.image = image;
     }
+    public String getLink() {return LINK;}
+
 }
