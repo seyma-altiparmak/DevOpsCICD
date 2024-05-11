@@ -2,11 +2,13 @@ package org.example.model;
 
 import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "person")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
@@ -19,6 +21,8 @@ public class User {
     @Column(name = "image")
     private String image;
 
+    @Transient
+    private MultipartFile imageFile;
 
     public static final String LINK = "https://devops-swe304.s3.eu-north-1.amazonaws.com/";
 
@@ -41,12 +45,23 @@ public class User {
         this.address = address;
     }
 
-    public String getImage() {
-        return image;
+    public MultipartFile getImage() {
+        return imageFile;
     }
-    public void setImage(String image) {
-        this.image = image;
+    public void setImage(MultipartFile imageFile) {
+        this.imageFile = imageFile;
     }
     public String getLink() {return LINK;}
+
+    public String getImageLink(String fileName){
+        if (fileName == null || fileName.isEmpty()) {
+            throw new IllegalArgumentException("File name cannot be null or empty!");
+        }
+        return LINK + fileName + ".jpg";
+    }
+    public void setImageLink(String fileName) {
+        this.image = fileName;
+    }
+
 
 }
