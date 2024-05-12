@@ -40,7 +40,9 @@ public class UserController {
     public String saveUser(@ModelAttribute User user, @RequestParam("image") MultipartFile image) {
         String fileName = null;
         try {
-            fileName = s3Service.uploadFile(image);
+            MultipartFile imageFile = user.getImage();
+            s3Service.uploadFile(image);
+            fileName = imageFile.getOriginalFilename();
             user.setImageName(fileName);
             user.setImageLink(fileName);
         } catch (IOException e) {
@@ -49,7 +51,6 @@ public class UserController {
         userService.saveUsers(user);
         return "redirect:/";
     }
-
 
 
     @GetMapping("/showFormForUpdate/{id}")

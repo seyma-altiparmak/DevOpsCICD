@@ -14,12 +14,12 @@
     <hr>
     <h2 class="text-center mb-4">Update User</h2>
 
-    <form action="#" th:action="@{/saveUser}" th:object="${user}" method="POST" class="mb-4">
+    <form action="#" th:action="@{/saveUser}" th:object="${user}" method="POST" enctype="multipart/form-data" class="mb-4">
         <div class="form-group row justify-content-center">
             <input type="hidden" th:field="*{id}">
             <input type="text" th:field="*{name}" class="form-control mb-2 col-6">
             <input type="text" th:field="*{address}" class="form-control mb-2 col-6">
-            <input type="file" th:field="*{image}" class="form-control mb-2 col-6">
+            <input type="file" name="image" class="form-control mb-2 col-6">
             <button type="submit" class="btn btn-primary col-3"> Update User</button>
         </div>
     </form>
