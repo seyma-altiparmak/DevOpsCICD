@@ -34,7 +34,7 @@
             <td th:text="${user.id}"></td>
             <td th:text="${user.name}"></td>
             <td th:text="${user.address}"></td>
-            <td><img th:src="@{${user.getImageLink()} + ${user.image}}"
+            <td><img th:src="${user.LINK}"
                      alt="User Image"
                      class="img-thumbnail"
                      style="width: 100px; height: 100px;">

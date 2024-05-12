@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Table(name = "person")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
@@ -24,7 +23,8 @@ public class User {
     @Transient
     private MultipartFile imageFile;
 
-    public static final String LINK = "https://devops-swe304.s3.eu-north-1.amazonaws.com/";
+    @Column(name = "link")
+    private String LINK = "https://devops-swe304.s3.eu-north-1.amazonaws.com/";
 
     public long getId() {
         return id;
@@ -44,6 +44,13 @@ public class User {
     public void setAddress(String address) {
         this.address = address;
     }
+    public  void setImageName(String image) {this.image = image;}
+    public String getImageName() {
+        return image;
+    }
+    public String getLINK() {
+        return LINK + image;
+    }
 
     public MultipartFile getImage() {
         return imageFile;
@@ -57,7 +64,14 @@ public class User {
         if (fileName == null || fileName.isEmpty()) {
             throw new IllegalArgumentException("File name cannot be null or empty!");
         }
+        setImageLink(fileName);
         return LINK + fileName + ".jpg";
+    }
+    public String getImageLinkJPG(String fileName){
+        if (fileName == null || fileName.isEmpty()) {
+            throw new IllegalArgumentException("File name cannot be null or empty!");
+        }
+        return LINK + fileName;
     }
     public void setImageLink(String fileName) {
         this.image = fileName;

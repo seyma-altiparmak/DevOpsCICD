@@ -41,10 +41,11 @@ public class UserController {
         String fileName = null;
         try {
             fileName = s3Service.uploadFile(image);
+            user.setImageName(fileName);
+            user.setImageLink(fileName);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        user.getImageLink(fileName);
         userService.saveUsers(user);
         return "redirect:/";
     }
