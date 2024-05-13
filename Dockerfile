@@ -2,7 +2,7 @@
 FROM openjdk:17-alpine
 
 # Copy the packaged Spring Boot application JAR file into the container at /app
-COPY build/libs/DevOpsCICD-0.0.1-SNAPSHOT.jar /DevOpsCICD.jar
+COPY build/libs/DevOpsCICD-1.0-SNAPSHOT.jar /DevOpsCICD.jar
 
 # Specify the command to run your Spring Boot application when the container starts
-CMD ["java", "-jar", "/dockerDev.jar"]
+CMD ["java", "-jar", "/DevOpsCICD.jar"]

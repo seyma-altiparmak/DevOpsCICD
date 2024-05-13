@@ -12,7 +12,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/postgres
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_PASSWORD: 1234
     restart: always
     networks:
       - sbnet
@@ -23,7 +23,7 @@ services:
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: root
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: 1234
     networks:
       - sbnet
 
