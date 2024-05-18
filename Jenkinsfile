@@ -2,79 +2,55 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
-        GITHUB_CREDENTIALS = credentials('github-credentials')
-        IMAGE_NAME = 'mertcihanbayir/dockercicd:latest'
-        DB_IMAGE = 'postgres:latest'
-        GITHUB_REPO = 'github.com/seyma-altiparmak/DevOpsCICD.git'
+        PATH = "/mnt/c/Program Files/Gradle/gradle-8.7/bin:${env.PATH}"
+        registry = "mertcihanbayir/devopscicd"
+        registryCredentials = 'credentialid'
+        dockerImage = 'devopscicd:latest'
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout gradle and java') {
             steps {
-                git credentialsId: 'GITHUB_CREDENTIALS', url: "https://${GITHUB_REPO}"
+                sh 'gradle --version'
+                sh 'java --version'
             }
         }
-
-        stage('Create JAR') {
+        stage('Check my project from github') {
             steps {
-                script {
-                    sh './gradlew clean build'
-                }
+                git 'https://github.com/seyma-altiparmak/DevOpsCICD.git'
             }
         }
-
-        stage('Build Docker Image') {
+        stage('Building jar file') {
             steps {
-                script {
-                    docker.build("${IMAGE_NAME}")
-                }
+                sh 'chmod +x gradlew'
+                sh './gradlew clean build'
             }
         }
-
-        stage('Push to DockerHub') {
+        stage('Build Docker image') {
             steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'DOCKERHUB_CREDENTIALS') {
-                        docker.image("${IMAGE_NAME}").push()
-                    }
-                }
+                sh 'docker build -t mertcihanbayir/devopscicd:latest .'
             }
         }
-
-        stage('Pull from DockerHub') {
+        stage('Tag Docker Image') {
             steps {
-                script {
-                    sh "docker pull ${IMAGE_NAME}"
-                }
+                sh 'docker tag mertcihanbayir/devopscicd:latest mertcihanbayir/devopscicd:v1'
             }
         }
-
-        stage('Run on Minikube') {
+        stage('Login to Docker Hub') {
             steps {
-                script {
-                    sh 'minikube status || minikube start'
-                    sh 'eval $(minikube -p minikube docker-env)'
-                    sh """
-                    kubectl create deployment webapp --image=${IMAGE_NAME} --dry-run=client -o yaml > webapp-depl.yaml
-                    kubectl create deployment db --image=${DB_IMAGE} --dry-run=client -o yaml > db-depl.yaml
-                    """
-                    sh """
-                    kubectl apply -f webapp-depl.yaml
-                    kubectl apply -f db-depl.yaml
-                    """
-                    sh """
-                    kubectl expose deployment webapp --type=NodePort --port=8080
-                    kubectl expose deployment db --type=NodePort --port=5432
-                    """
-                }
+                sh 'echo *** | docker login --username mertcihanbayir --password-stdin'
+            }
+        }
+        stage('Push Docker Image to the hub') {
+            steps {
+                sh 'docker push mertcihanbayir/devopscicd:v1'
             }
         }
     }
 
     post {
-        always {
-            cleanWs()
+        success {
+            echo 'İşlem başarıyla tamamlandı. Mert & Şeyma'
         }
     }
 }
