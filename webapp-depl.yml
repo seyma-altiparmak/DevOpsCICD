@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: DevOpsCICD
-        image: gcr.io/google #değiştir
+        image: mertcihanbayir/dockercicd:latest
         ports:
         - containerPort: 8080
         env:

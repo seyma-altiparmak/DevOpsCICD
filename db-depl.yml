@@ -1,7 +1,7 @@
 apiVersion: V1
 kind: Service
 metadata:
-  name: postgresql
+  name: postgres
   labels:
     app: DevOpsCICD
 spec:
@@ -9,7 +9,7 @@ spec:
     - port: 5432
       targetPort: 5432
   selector:
-    app: postgresql
+    app: postgres
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -19,15 +19,15 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgresql
+      app: postgres
   template:
     metadata:
       labels:
-        app: potgresql
+        app: postgres
     spec:
       containers:
-        - name: DevOpsCICD
-          image: gcr.io/google #değiştir
+        - name: devopscicd
+          image: mertcihanbayir/postgres:latest
           imagePullPolicy: "IfNotPresent"
           env:
             - name: POSTGRES_PASSWORD
