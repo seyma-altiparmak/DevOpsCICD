@@ -56,12 +56,12 @@ pipeline {
                     sh 'minikube status || minikube start'
                     sh 'eval $(minikube -p minikube docker-env)'
                     sh """
-                    kubectl create deployment webapp --image=${IMAGE_NAME} --dry-run=client -o yaml > webapp-deployment.yaml
-                    kubectl create deployment db --image=${DB_IMAGE} --dry-run=client -o yaml > db-deployment.yaml
+                    kubectl create deployment webapp --image=${IMAGE_NAME} --dry-run=client -o yaml > webapp-depl.yaml
+                    kubectl create deployment db --image=${DB_IMAGE} --dry-run=client -o yaml > db-depl.yaml
                     """
                     sh """
-                    kubectl apply -f webapp-deployment.yaml
-                    kubectl apply -f db-deployment.yaml
+                    kubectl apply -f webapp-depl.yaml
+                    kubectl apply -f db-depl.yaml
                     """
                     sh """
                     kubectl expose deployment webapp --type=NodePort --port=8080
