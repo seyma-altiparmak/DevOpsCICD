@@ -3,19 +3,21 @@ kind: Service
 metadata:
   name: devopscicd-service
 spec:
-  type: LoadBalancer
   selector:
-    app: DevOpsCICD
+    app: devopscicd
   ports:
     - port: 80
       targetPort: 9090
+      nodePort: 31016
+      protocol: TCP
+  type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: devopscicd
+  name: devopscicd-deploy
   labels:
-    app: DevOpsCICD
+    app: devopscicd
 spec:
   replicas: 1
   selector:
@@ -23,8 +25,9 @@ spec:
       app: DevOpsCICD
   template:
     metadata:
+      name: devopscicd
       labels:
-        app: DevOpsCICD
+        app: devopscicd
     spec:
       containers:
         - name: devopscicd
@@ -47,5 +50,3 @@ spec:
               value: "1234"
           ports:
             - containerPort: 9090
-      imagePullSecrets:
-        - name: regcred
