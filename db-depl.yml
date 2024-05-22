@@ -15,6 +15,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgresql
+  labels:
+    app: postgres
 spec:
   replicas: 1
   selector:
@@ -28,7 +30,7 @@ spec:
       containers:
         - name: postgres
           image: mertcihanbayir/postgres:latest
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: IfNotPresent
           env:
             - name: POSTGRES_PASSWORD
               value: "1234"
@@ -42,6 +44,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: devopscicd
+  labels:
+    app: devopscicd
 spec:
   replicas: 1
   selector:

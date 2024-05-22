@@ -14,11 +14,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: devopscicd
+  labels:
+    app: DevOpsCICD
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: DevOpsCICD
-  replicas: 1
   template:
     metadata:
       labels:
