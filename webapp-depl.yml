@@ -26,10 +26,13 @@ spec:
     spec:
       containers:
         - name: devopscicd
-          image: mertcihanbayir/dockercicd:v1
-          ports:
-            - containerPort: 9090
+          image: mertcihanbayir/devopscicd:latest
           env:
+            - name: APP_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: VERSION
             - name: DB_HOST
               value: postgresql
             - name: DB_PORT
@@ -40,5 +43,7 @@ spec:
               value: postgres
             - name: DB_PASSWORD
               value: "1234"
+          ports:
+            - containerPort: 9090
       imagePullSecrets:
         - name: regcred

@@ -6,6 +6,7 @@ pipeline {
         registry = "mertcihanbayir/devopscicd"
         registryCredentials = 'credentialid'
         dockerImage = 'devopscicd:latest'
+        version = "v${BUILD_NUMBER}"
     }
 
     stages {
@@ -28,22 +29,33 @@ pipeline {
         }
         stage('Build Docker image') {
             steps {
-                sh 'docker build -t mertcihanbayir/devopscicd:latest .'
+                sh 'docker build -t ${registry}:latest .'
             }
         }
         stage('Tag Docker Image') {
             steps {
-                sh 'docker tag mertcihanbayir/devopscicd:latest mertcihanbayir/devopscicd:v1'
+                sh 'docker tag ${registry}:latest ${registry}:${version}'
             }
         }
         stage('Login to Docker Hub') {
             steps {
-                sh 'echo *** | docker login --username mertcihanbayir --password-stdin'
+                sh 'echo 74An855855. | docker login --username mertcihanbayir --password-stdin'
             }
         }
         stage('Push Docker Image to the hub') {
             steps {
-                sh 'docker push mertcihanbayir/devopscicd:v1'
+                sh 'docker push ${registry}:${version}'
+            }
+        }
+        stage('Update Kubernetes Deployment') {
+            steps {
+                script {
+                    sh """
+                    kubectl create configmap app-config --from-literal=VERSION=${version} --dry-run=client -o yaml | kubectl apply -f -
+                    kubectl apply -f k8s/db-depl.yml
+                    kubectl apply -f k8s/webapp.depl.yml
+                    """
+                }
             }
         }
     }
