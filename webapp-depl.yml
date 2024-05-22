@@ -1,19 +1,19 @@
-apiVersion: V1
+apiVersion: v1
 kind: Service
 metadata:
-  name: DevOpsCICD-service
+  name: devopscicd-service
 spec:
   type: LoadBalancer
   selector:
     app: DevOpsCICD
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 9090
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: DevOpsCICD
+  name: devopscicd
 spec:
   selector:
     matchLabels:
@@ -25,18 +25,20 @@ spec:
         app: DevOpsCICD
     spec:
       containers:
-      - name: DevOpsCICD
-        image: mertcihanbayir/dockercicd:latest
-        ports:
-        - containerPort: 8080
-        env:
-          - name: DB_HOST
-            value: postgresql
-          - name: DB_PORT
-            value: "5432"
-          - name: DB_NAME
-            value: postgres
-          - name: DB_USERNAME
-            value: postgres
-          - name: DB_PASSWORD
-            value: "1234"
+        - name: devopscicd
+          image: mertcihanbayir/dockercicd:v1
+          ports:
+            - containerPort: 9090
+          env:
+            - name: DB_HOST
+              value: postgresql
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: postgres
+            - name: DB_USERNAME
+              value: postgres
+            - name: DB_PASSWORD
+              value: "1234"
+      imagePullSecrets:
+        - name: regcred
