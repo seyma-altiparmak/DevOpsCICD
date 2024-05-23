@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: devopscicd
-          image: mertcihanbayir/devopscicd-v7
+          image: mertcihanbayir/devopscicd
           env:
             - name: APP_VERSION
               valueFrom:
