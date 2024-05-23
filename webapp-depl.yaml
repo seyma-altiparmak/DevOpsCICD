@@ -1,21 +1,7 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: devopscicd-service
-spec:
-  selector:
-    app: devopscicd
-  ports:
-    - port: 80
-      targetPort: 9090
-      nodePort: 31017
-      protocol: TCP
-  type: NodePort
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: devopscicd-v2 #devopscicd-deploy
+  name: devopscicd-v2
   labels:
     app: devopscicd
 spec:
@@ -25,13 +11,14 @@ spec:
       app: devopscicd
   template:
     metadata:
-      name: devopscicd
       labels:
         app: devopscicd
     spec:
       containers:
         - name: devopscicd
           image: mertcihanbayir/devopscicd
+          ports:
+            - containerPort: 9090
           env:
             - name: APP_VERSION
               valueFrom:
@@ -48,5 +35,5 @@ spec:
               value: postgres
             - name: DB_PASSWORD
               value: "1234"
-          ports:
-            - containerPort: 9090
+      imagePullSecrets:
+        - name: myregistrykey
