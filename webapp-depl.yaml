@@ -15,7 +15,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: devopscicd #devopscicd-deploy
+  name: devopscicd-v2 #devopscicd-deploy
   labels:
     app: devopscicd
 spec:
@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: devopscicd
-          image: mertcihanbayir/devopscicd:latest
+          image: mertcihanbayir/devopscicd-v7
           env:
             - name: APP_VERSION
               valueFrom:

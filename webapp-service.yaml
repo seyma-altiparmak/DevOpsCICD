@@ -8,6 +8,6 @@ spec:
   ports:
     - port: 80
       targetPort: 9090
-      nodePort: 31016
+      nodePort: 31017
       protocol: TCP
   type: NodePort

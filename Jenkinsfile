@@ -81,8 +81,8 @@ users:
                     sh '''
                     export KUBECONFIG=kubeconfig
                     kubectl create configmap app-config --from-literal=VERSION=${version} --dry-run=client -o yaml | kubectl apply -f -
-                    kubectl apply -f k8s/db-depl.yml
-                    kubectl apply -f k8s/webapp.depl.yml
+                    kubectl apply -f k8s/db-depl.yaml
+                    kubectl apply -f k8s/webapp.depl.yaml
                     '''
                 }
             }
